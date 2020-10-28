@@ -144,6 +144,7 @@
     <ClCompile Include="byte_stream.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sha256.cpp" />
+    <ClCompile Include="users.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base32.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="hotp.h" />
     <ClInclude Include="sha256.h" />
     <ClInclude Include="totp.h" />
+    <ClInclude Include="users.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

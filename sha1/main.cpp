@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iomanip>
 #include <iostream>
 #include "byte_strean.h"
@@ -7,7 +8,11 @@
 #include"hmac.h"
 #include <bitset>
 #include"hotp.h"
+
+#define TEST_TOTP
 #include "totp.h"
+#include <thread>
+#include <chrono>
 
 #define PRINT(x) \
      (std::cout << #x << " == " << x << '\n')
@@ -155,6 +160,14 @@ void test_hotp()
 	}
 }
 
+std::string now() 
+{ 
+	const auto t = std::time(nullptr);
+	std::string str = std::ctime(std::addressof(t));
+	str.pop_back();
+	return str;
+}
+
 void test_totp()
 {
 	const std::string test_string[] =
@@ -168,38 +181,43 @@ void test_totp()
 		""
 	};
 
-	const std::string expected_hotp[std::size(test_string)] =
-	{
-		"0f78fcc486f5315418fbf095e71c0675ee07d318e5ac4d150050cd8e57966496",
-		"510d398e47ff1296ec7d9208019abfcd33bcb12fb225044d141581c70211e21b",
-		"b8bb66346ee2bd6fae4a16e609caa07c3750c5b768356d879a70e5c5b21ac4dd",
-		"ac9764520f736bcdc1791b195d01abad3aebc24b86e15238bb404a3022be7668",
-		"ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
-		"e4f77e8f94b9e3dd6447f6a6b24fdf121a8c205b6410ed849996085aaa922ee2",
-		"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-	};
+	const auto nsteps = totp::SYS_VALID_TIME_NUM_INTERVALS + 2;
 
-	const unsigned int timestep = 20;
-	const auto t = std::time(nullptr);
-	const unsigned int otp_len = 6;
-
-	for (std::size_t i = 0; i < std::size(test_string); ++i)
+	for ( const std::string& str : test_string )
 	{
-		std::cout << "TOTP for " << std::quoted(test_string[i]) << " is ->\n\t";
-		for (int ts = 0; ts < 130; ts += 10)
+		static const auto asecond = std::chrono::seconds(1);
+		const auto skey = util::str_to_bytes(str);
+		const auto time_str = now();
+		const auto otp = totp::generate<sha256>(skey);
+		auto rotp = otp;
+		std::reverse(rotp.begin(), rotp.end());
+
+		std::cout << "TOTP for " << std::quoted(str) << " is -> " << otp 
+			      << "  (" << time_str << ")\n" ;
+
+		for ( std::uint64_t i = 0; i < nsteps; ++i )
 		{
-			const auto totp_result = totp::calculate<sha256>
-				(util::str_to_bytes(test_string[i]), 0, timestep, t+ts, otp_len);
+			std::cout << now() << "   " << otp << "  is " ;
+			std::cout << ( totp::validate<sha256>(skey, otp) ? "valid\n" : "invalid\n");
 
-			std::cout << ' ' << totp_result;
+			std::cout << now() << "   " << rotp << "  is ";
+			std::cout << (totp::validate<sha256>(skey, rotp) ? "valid\n" : "invalid\n");
+		    
+			std::this_thread::sleep_for(asecond);
 		}
+
+		std::cout << "\npress enter to continue: ";
+		std::cin.get();
 		std::cout << "\n\n";
 	}
 }
 
 int main()
 {
-	std::cout << std::boolalpha << "rime in seconds? " 
+	test_totp();
+	return 0;
+
+	std::cout << std::boolalpha << "rime in seconds? "
 		<< totp::time_is_in_seconds() << '\n';
 
 	const std::uint64_t n = 0x123456789abcdeff;
