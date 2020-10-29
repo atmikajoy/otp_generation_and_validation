@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{707b0b59-7897-4420-a199-7f8e6f356e28}</ProjectGuid>
-    <RootNamespace>codepractice</RootNamespace>
+    <ProjectGuid>{ae2bc998-55f0-4b51-b992-804d9c534676}</ProjectGuid>
+    <RootNamespace>totp</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -103,6 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,7 +141,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="..\sha1\base32.h" />
+    <ClInclude Include="..\sha1\byte_stream.h" />
+    <ClInclude Include="..\sha1\hmac.h" />
+    <ClInclude Include="..\sha1\hotp.h" />
+    <ClInclude Include="..\sha1\sha256.h" />
+    <ClInclude Include="..\sha1\totp.h" />
+    <ClInclude Include="..\sha1\users.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\sha1\base32.cpp" />
+    <ClCompile Include="..\sha1\byte_stream.cpp" />
+    <ClCompile Include="..\sha1\main.cpp" />
+    <ClCompile Include="..\sha1\sha256.cpp" />
+    <ClCompile Include="..\sha1\users.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
