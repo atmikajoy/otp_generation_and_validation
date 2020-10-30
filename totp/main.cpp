@@ -30,9 +30,9 @@ util::byte_sequence cat(util::byte_sequence a, const util::byte_sequence b)
 	return a;
 }
 
-constexpr unsigned long long ipow( unsigned int a, unsigned int b ) 
+constexpr unsigned long long ipow(unsigned int a, unsigned int b)
 {
-	return b == 0 ? 1 : a * ipow( a, b-1 );
+	return b == 0 ? 1 : a * ipow(a, b - 1);
 }
 
 std::vector<int> read_numbers_from_line(std::istream& stm)
@@ -48,7 +48,7 @@ std::vector<int> read_numbers_from_line(std::istream& stm)
 	else return {}; // getline failed
 }
 
-void foo(util::byte) { std::cout << "void foo( util::byte )\n";  }
+void foo(util::byte) { std::cout << "void foo( util::byte )\n"; }
 void foo(int) { std::cout << "void foo( int )\n"; }
 void test_hmac()
 {
@@ -151,17 +151,17 @@ void test_hotp()
 
 	for (std::size_t i = 0; i < std::size(test_string); ++i)
 	{
-		const unsigned int otp_len = 6; 
+		const unsigned int otp_len = 6;
 		const auto hotp_result = hotp::calculate<sha256>
 			(util::str_to_bytes(test_string[i]),
 				util::str_to_bytes("hello"),
 				otp_len);
-		std::cout << "OTP for "<< std::quoted(test_string[i])  << " is -> " << hotp_result << '\n';
+		std::cout << "OTP for " << std::quoted(test_string[i]) << " is -> " << hotp_result << '\n';
 	}
 }
 
-std::string now() 
-{ 
+std::string now()
+{
 	const auto t = std::time(nullptr);
 	std::string str = std::ctime(std::addressof(t));
 	str.pop_back();
@@ -183,7 +183,7 @@ void test_totp()
 
 	const auto nsteps = totp::SYS_VALID_TIME_NUM_INTERVALS + 2;
 
-	for ( const std::string& str : test_string )
+	for (const std::string& str : test_string)
 	{
 		static const auto asecond = std::chrono::seconds(1);
 		const auto skey = util::str_to_bytes(str);
@@ -192,17 +192,17 @@ void test_totp()
 		auto rotp = otp;
 		std::reverse(rotp.begin(), rotp.end());
 
-		std::cout << "TOTP for " << std::quoted(str) << " is -> " << otp 
-			      << "  (" << time_str << ")\n" ;
+		std::cout << "TOTP for " << std::quoted(str) << " is -> " << otp
+			<< "  (" << time_str << ")\n";
 
-		for ( std::uint64_t i = 0; i < nsteps; ++i )
+		for (std::uint64_t i = 0; i < nsteps; ++i)
 		{
-			std::cout << now() << "   " << otp << "  is " ;
-			std::cout << ( totp::validate<sha256>(skey, otp) ? "valid\n" : "invalid\n");
+			std::cout << now() << "   " << otp << "  is ";
+			std::cout << (totp::validate<sha256>(skey, otp) ? "valid\n" : "invalid\n");
 
 			std::cout << now() << "   " << rotp << "  is ";
 			std::cout << (totp::validate<sha256>(skey, rotp) ? "valid\n" : "invalid\n");
-		    
+
 			std::this_thread::sleep_for(asecond);
 		}
 
@@ -214,7 +214,7 @@ void test_totp()
 
 int main()
 {
-	const std::size_t NUSERS = 1'000'000;
+	const std::size_t NUSERS = 1'000;
 	auto id = users::generate_random_users(NUSERS);
 	// users::save_users("C:\\otp\\users.txt");
 
@@ -232,17 +232,17 @@ int main()
 	for (std::size_t i = id; i < (id + NUSERS); ++i)
 		if (totp::validate<sha256>(i, otp_map[i])) ++nvalid;
 
-		//otp.pop_back();
-		//otp.push_back('0');
-		//totp::validate<sha256>(i, otp);
-		//++id;
+	//otp.pop_back();
+	//otp.push_back('0');
+	//totp::validate<sha256>(i, otp);
+	//++id;
 
 	const auto end = steady_clock::now();
 
-	const auto msecs = duration_cast<milliseconds>(end-start).count();
+	const auto msecs = duration_cast<milliseconds>(end - start).count();
 
 	std::cout << nvalid << " of " << NUSERS << " valid\n"
-		<< " in " << msecs << " millisecs, " 
+		<< " in " << msecs << " millisecs, "
 		<< NUSERS * 1000.0 / msecs << " per second\n";
 	return 0;
 
@@ -259,7 +259,7 @@ int main()
 		test_hotp();
 		std::cin.get();
 		test_totp();
-		return 0; 
+		return 0;
 	}
 
 	{
@@ -283,14 +283,14 @@ int main()
 		b = u;
 		std::cout << b << ' ' << u << '\n';
 		return 0;
-		
 
-		for ( util::byte b = 0; b <= std::numeric_limits<util::byte>::max() - 1 ; ++b)
+
+		for (util::byte b = 0; b <= std::numeric_limits<util::byte>::max() - 1; ++b)
 		{
 			unsigned int u = b;
-			std::cout << std::hex << u << "  " << std::bitset<8>(u) << '\n' ;
+			std::cout << std::hex << u << "  " << std::bitset<8>(u) << '\n';
 
-			
+
 		}
 		return 0;
 	}
@@ -319,7 +319,7 @@ int main()
 		std::string_view view = str;
 
 		util::byte_sequence bytes{ 1, 2, 3, 4, 5 };
-		while (bytes.size() < 27 )
+		while (bytes.size() < 27)
 		{
 			bytes.push_back(util::byte(bytes.size()));
 			const auto padded_b32 = util::to_padded_base32(bytes);
@@ -336,9 +336,9 @@ int main()
 		const int c = 8;
 		// int k = 5 / MAX_OF(i + 2, j - 3); // 5 / (i+2 > j-3 ? i+2 : j-3) ;
 		// MAX_OF(++i, ++j);
-		( true ? i : j ) = 23 ;
+		(true ? i : j) = 23;
 
-		 max_of(i, c) ;
+		max_of(i, c);
 	}
 	int n = 255;
 	PRINT(n);
@@ -370,7 +370,7 @@ int main()
 	std::cout << b32 << '\n';
 	std::cout << "\n-----------------\n";
 
-	auto cpy = util::from_base32( b32, bytes2.size() );
+	auto cpy = util::from_base32(b32, bytes2.size());
 
 	const auto b32d = util::to_base32_data(bytes2);
 	cpy = util::from_base32(b32d.b32_str, b32d.nbytes);
@@ -387,7 +387,7 @@ int main()
 	if (b32d_cpy.nbytes == b32d.nbytes && b32d_cpy.b32_str == b32d.b32_str)
 		std::cout << "2. ok\n";
 
-	if( util::from_base32_data( util::to_base32_data(bytes) ) == bytes )
+	if (util::from_base32_data(util::to_base32_data(bytes)) == bytes)
 		std::cout << "3. ok\n";
 
 	std::cout << "\n--------------\n";
@@ -407,7 +407,7 @@ int main()
 	util::byte_sequence sha256_bytes = util::str_to_bytes(output1);
 	std::cout << "\nsha256(" << input << "): "
 		<< output1 << '\n';
-		      // << util::bytes_to_hex_string(sha256_bytes) << '\n';
+			  // << util::bytes_to_hex_string(sha256_bytes) << '\n';
 	// std::cout << "\nsha256(" << input << "):" << output1 << '\n';
 	*/
 #endif // #ifdef not_used

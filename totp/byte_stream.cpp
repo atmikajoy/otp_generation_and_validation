@@ -33,16 +33,16 @@ namespace util
 	byte_sequence hex_string_to_bytes(std::string_view hex_str)
 	{
 		static const std::invalid_argument bad_arg_error("bad hex string");
-		
-		if (hex_str.size() % 2u == 1U ) throw bad_arg_error ;
-		
+
+		if (hex_str.size() % 2u == 1U) throw bad_arg_error;
+
 		byte_sequence result;
 
-		for( std::size_t i = 0 ; i < hex_str.size() ; i += 2 )
+		for (std::size_t i = 0; i < hex_str.size(); i += 2)
 		{
-			const int first = hex_char_to_int(hex_str[i] ) * 16;
+			const int first = hex_char_to_int(hex_str[i]) * 16;
 			const int second = hex_char_to_int(hex_str[i + 1]);
-			if( first < 0 || second < 0 ) throw bad_arg_error;
+			if (first < 0 || second < 0) throw bad_arg_error;
 			result.push_back(first + second);
 		}
 
@@ -52,7 +52,7 @@ namespace util
 	byte_sequence bytes_in_file(const std::string& file_name)
 	{
 		if (std::ifstream file{ file_name, std::ios::binary })
-		{ 
+		{
 			/*
 			byte_sequence result;
 

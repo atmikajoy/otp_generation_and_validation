@@ -6,7 +6,7 @@
 
 struct sha256_base
 {
-    static constexpr std::size_t BLOCK_SIZE = (512 / 8) ;
+    static constexpr std::size_t BLOCK_SIZE = (512 / 8);
 
     static constexpr std::size_t DIGEST_SIZE = (256 / 8);
 
@@ -21,7 +21,7 @@ template < typename ITERATOR >
 sha256_base::digest_type sha256_digest(ITERATOR begin, ITERATOR end)
 {
     static_assert(sizeof(*begin) == sizeof(util::byte));
-    return sha256_digest(std::string{ begin, end } );
+    return sha256_digest(std::string{ begin, end });
 }
 
 template < typename ITERATOR >
@@ -33,12 +33,12 @@ std::string sha256_str(ITERATOR begin, ITERATOR end)
 
 struct sha256 : sha256_base
 {
-    static inline std::string hash_str(std::string input) 
+    static inline std::string hash_str(std::string input)
     {
         return sha256_str(input);
     }
 
-    static inline util::byte_sequence hash_to_vec(const std::string& input) 
+    static inline util::byte_sequence hash_to_vec(const std::string& input)
     {
         return sha256_vec(input);
     }

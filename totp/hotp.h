@@ -19,12 +19,12 @@ namespace hotp
     }
 
     template <typename HASH_ALGO>
-    std::string calculate( const util::byte_sequence& secret_key,
-          const util::byte_sequence& counter, unsigned int code_len) {
+    std::string calculate(const util::byte_sequence& secret_key,
+        const util::byte_sequence& counter, unsigned int code_len) {
 
 
-        if ( code_len < min_code_length || code_len > max_code_length )
-            throw std::invalid_argument( "Invalid number of digits" );
+        if (code_len < min_code_length || code_len > max_code_length)
+            throw std::invalid_argument("Invalid number of digits");
 
         auto hash = hmac<HASH_ALGO>::compute(secret_key, counter);
 
@@ -32,11 +32,11 @@ namespace hotp
         int offset = hash.back() & 0xF;
         unsigned long val = 0;
         for (int i = 0; i < 4; i++)
-            val |= static_cast<unsigned long>( hash.at(offset + i)) << ((3 - i) * 8);
+            val |= static_cast<unsigned long>(hash.at(offset + i)) << ((3 - i) * 8);
         val &= 0x7FFFFFFFUL;
 
         // Extract and format base-10 digits
-        std::string result = std::to_string( val % ten_pow(code_len));
+        std::string result = std::to_string(val % ten_pow(code_len));
         while (result.size() < code_len) result = '0' + result;
         return result;
     }

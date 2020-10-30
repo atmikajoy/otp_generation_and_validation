@@ -95,7 +95,7 @@ namespace
 
 template<typename hash_method>
 template < typename DATA_RANGE, typename KEY_RANGE >
-typename hmac<hash_method>::digest_type 
+typename hmac<hash_method>::digest_type
 hmac<hash_method>::compute(const DATA_RANGE& data, const KEY_RANGE& key)
 {
     // (1) append zeros to the end of K to create a B byte string

@@ -32,19 +32,23 @@ namespace util
             stm << std::hex << std::setfill('0');
 
             using uint = unsigned int;
-            for( auto iter = begin ; iter != end ; ++iter )
-                stm << std::setw(2) << uint( *iter );
+            for (auto iter = begin; iter != end; ++iter)
+                stm << std::setw(2) << uint(*iter);
 
             return stm.str();
         }
     }
 
-    inline std::string bytes_to_hex_string(const byte_sequence& bytes) 
-    { return detail::bytes_to_hex_string(bytes.begin(), bytes.end());  }
+    inline std::string bytes_to_hex_string(const byte_sequence& bytes)
+    {
+        return detail::bytes_to_hex_string(bytes.begin(), bytes.end());
+    }
 
     template < std::size_t N >
     inline std::string bytes_to_hex_string(const byte_array<N>& bytes)
-    { return detail::bytes_to_hex_string(bytes.begin(), bytes.end()); }
+    {
+        return detail::bytes_to_hex_string(bytes.begin(), bytes.end());
+    }
 
     byte_sequence hex_string_to_bytes(std::string_view hex_str);
 

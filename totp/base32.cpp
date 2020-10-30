@@ -18,7 +18,7 @@ namespace util
 			return std::bitset<8>(v).to_string();
 		}
 
-		char bits_to_base32( std::string bits )
+		char bits_to_base32(std::string bits)
 		{
 			unsigned long value = std::bitset<5>(bits).to_ulong();
 			return alphabet[value];
@@ -28,13 +28,13 @@ namespace util
 		{
 			c = std::toupper((unsigned char)c);
 			auto pos = alphabet.find(c);
-			if(pos == std::string::npos) throw bad_arg_error;
+			if (pos == std::string::npos) throw bad_arg_error;
 			return pos;
 		}
 
 		std::bitset<5> bits_of(char c)
 		{
-			return std::bitset<5>(index_value(c)); 
+			return std::bitset<5>(index_value(c));
 		}
 
 		std::string bit_string_of(char c)
@@ -101,10 +101,10 @@ namespace util
 
 				switch (npads)
 				{
-				    case 1: nbytes -= 1; break;
-					case 3: nbytes -= 2; break;
-					case 4: nbytes -= 3; break;
-					default: nbytes -= 4;
+				case 1: nbytes -= 1; break;
+				case 3: nbytes -= 2; break;
+				case 4: nbytes -= 3; break;
+				default: nbytes -= 4;
 				}
 			}
 
@@ -112,7 +112,7 @@ namespace util
 		}
 	}
 
-	byte_sequence from_base32(std::string_view str, std::size_t sz )
+	byte_sequence from_base32(std::string_view str, std::size_t sz)
 	{
 		// if the base32 string consists of an integral multiple of eight characters,
 		// then we know that he origibal data consysted of an integral multiple 
@@ -121,21 +121,21 @@ namespace util
 		if (str.size() % 8 == 0) sz = -1;
 
 		byte_sequence result_byte_seq;
-		std::string result_byte_str; 
+		std::string result_byte_str;
 		for (auto b : str) result_byte_str += bit_string_of(b);
 		auto nbits = result_byte_str.size();
 		while (nbits % 8 != 0)
 		{
 			result_byte_str += '0';
-		    ++nbits;
+			++nbits;
 		}
 		for (std::size_t i = 0; i < nbits; i += 8)
 		{
 			std::string val = result_byte_str.substr(i, 8);
-			result_byte_seq.push_back( byte( std::bitset<8>(val).to_ulong() ) );
+			result_byte_seq.push_back(byte(std::bitset<8>(val).to_ulong()));
 		}
 
-		if (!result_byte_seq.empty() && result_byte_seq.back() == 0 )
+		if (!result_byte_seq.empty() && result_byte_seq.back() == 0)
 		{
 			if (sz == result_byte_seq.size() - 1) result_byte_seq.pop_back();
 		}

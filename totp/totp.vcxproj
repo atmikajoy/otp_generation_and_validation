@@ -18,6 +18,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="base32.h" />
+    <ClInclude Include="byte_stream.h" />
+    <ClInclude Include="hmac.h" />
+    <ClInclude Include="hotp.h" />
+    <ClInclude Include="sha256.h" />
+    <ClInclude Include="totp.h" />
+    <ClInclude Include="users.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="base32.cpp" />
+    <ClCompile Include="byte_stream.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="sha256.cpp" />
+    <ClCompile Include="users.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -140,22 +156,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\sha1\base32.h" />
-    <ClInclude Include="..\sha1\byte_stream.h" />
-    <ClInclude Include="..\sha1\hmac.h" />
-    <ClInclude Include="..\sha1\hotp.h" />
-    <ClInclude Include="..\sha1\sha256.h" />
-    <ClInclude Include="..\sha1\totp.h" />
-    <ClInclude Include="..\sha1\users.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\sha1\base32.cpp" />
-    <ClCompile Include="..\sha1\byte_stream.cpp" />
-    <ClCompile Include="..\sha1\main.cpp" />
-    <ClCompile Include="..\sha1\sha256.cpp" />
-    <ClCompile Include="..\sha1\users.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

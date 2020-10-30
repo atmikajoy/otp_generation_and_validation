@@ -12,7 +12,7 @@ namespace util
 
 	// if the size of the result sequence is known and passed,
 	// we can correctly take care of the non-multiple of fibe bytes
-	byte_sequence from_base32( std::string_view str, std::size_t sz = -1 );
+	byte_sequence from_base32(std::string_view str, std::size_t sz = -1);
 
 	// size is not passed; must be a padded base32 string
 	byte_sequence from_padded_base32(std::string_view str);
@@ -35,9 +35,9 @@ namespace util
 
 	base32_data to_base32_data(const byte_sequence& bytes);
 
-	inline byte_sequence from_base32_data( const base32_data& bdata ) 
+	inline byte_sequence from_base32_data(const base32_data& bdata)
 	{
-		return from_base32( bdata.b32_str, bdata.nbytes ); 
+		return from_base32(bdata.b32_str, bdata.nbytes);
 	}
 }
 

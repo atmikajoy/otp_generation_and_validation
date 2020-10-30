@@ -34,7 +34,7 @@ namespace users
 		user_id_t uid;
 		std::string secret;
 		std::string line;
-		while (std::getline(stm,line))
+		while (std::getline(stm, line))
 		{
 			std::stringstream stm(line);
 			stm >> uid >> secret;
@@ -42,7 +42,7 @@ namespace users
 				return false;
 			user_secret_map[uid] = util::hex_string_to_bytes(secret);
 
-			
+
 		}
 		return true;
 	}
@@ -64,7 +64,7 @@ namespace users
 
 		if (password.size() < MIN_PASSWORD_SIZE) return false;
 
-		user_secret_map[user_id] = encrypt(password); 
+		user_secret_map[user_id] = encrypt(password);
 		return true;
 	}
 
@@ -72,7 +72,7 @@ namespace users
 	util::byte_sequence secret_key(user_id_t user_id)
 	{
 		const auto iter = user_secret_map.find(user_id);
-		
+
 		if (iter == user_secret_map.end())
 			throw std::domain_error("invalid user id");
 
@@ -98,7 +98,7 @@ namespace users
 		std::string random_password()
 		{
 			static std::uniform_int_distribution<std::size_t> distrib(MIN_PASSWORD_SIZE, MAX_PASSWORD_SIZE);
-			
+
 			const auto len = distrib(rng);
 			std::string pword;
 			while (pword.size() < len) pword += random_char();
@@ -118,7 +118,7 @@ namespace users
 
 		for (std::size_t i = 0; i < n; ++i)
 		{
-			add_user( next_id++, random_password() );
+			add_user(next_id++, random_password());
 		}
 
 		return first_id;

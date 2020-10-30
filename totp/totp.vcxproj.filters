@@ -15,42 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\sha1\base32.h">
+    <ClInclude Include="base32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\sha1\byte_stream.h">
+    <ClInclude Include="byte_stream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\sha1\hmac.h">
+    <ClInclude Include="hmac.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\sha1\hotp.h">
+    <ClInclude Include="hotp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\sha1\sha256.h">
+    <ClInclude Include="sha256.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\sha1\totp.h">
+    <ClInclude Include="users.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\sha1\users.h">
+    <ClInclude Include="totp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\sha1\base32.cpp">
+    <ClCompile Include="base32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\sha1\byte_stream.cpp">
+    <ClCompile Include="byte_stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\sha1\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\sha1\sha256.cpp">
+    <ClCompile Include="sha256.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\sha1\users.cpp">
+    <ClCompile Include="users.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

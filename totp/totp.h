@@ -20,12 +20,12 @@ namespace totp
         static const std::uint64_t SYS_EPOCH = 0;
         static const unsigned int OTP_LEN = 6;
 
-        #ifdef TEST_TOTP
-           // for testing: small time step
-           static const std::uint64_t SYS_TIME_STEP = 1 ;
-           static const std::uint64_t SYS_VALID_TIME_NUM_INTERVALS = 5;
+#ifdef TEST_TOTP
+        // for testing: small time step
+        static const std::uint64_t SYS_TIME_STEP = 1;
+        static const std::uint64_t SYS_VALID_TIME_NUM_INTERVALS = 5;
 #else
-           // production time step is 30 seconds
+        // production time step is 30 seconds
         static const std::uint64_t SYS_TIME_STEP = 30;
         static const std::uint64_t SYS_VALID_TIME_NUM_INTERVALS = 300 / SYS_TIME_STEP;
 #endif // TEST_TOTP
@@ -75,15 +75,15 @@ namespace totp
         }
     }
     template <typename HASH_ALGO>
-    std::string calculate( const util::byte_sequence& secret_key, 
-                                std::int64_t epoch, std::int64_t timeStep,
-                                std::int64_t timestamp, unsigned int code_len )
+    std::string calculate(const util::byte_sequence& secret_key,
+        std::int64_t epoch, std::int64_t timeStep,
+        std::int64_t timestamp, unsigned int code_len)
     {
         const int64_t temp = timestamp - epoch;
         if (temp < 0) std::invalid_argument("invalid timestamp");
         const uint64_t timeCounter = static_cast<uint64_t>(temp / timeStep);
         const util::byte_sequence counter = bytes_big_endian(timeCounter);
-        return hotp::calculate<HASH_ALGO>(secret_key,counter,code_len);
+        return hotp::calculate<HASH_ALGO>(secret_key, counter, code_len);
     }
 
     template <typename HASH_ALGO>
@@ -99,15 +99,15 @@ namespace totp
         static const auto is_digit = [](unsigned char u)
         { return std::isdigit(u); };
 
-        if ( otp.size() != OTP_LEN || 
-             !std::all_of( otp.begin(), otp.end(), is_digit )
-           ) return false;
+        if (otp.size() != OTP_LEN ||
+            !std::all_of(otp.begin(), otp.end(), is_digit)
+            ) return false;
 
         const auto now = curr_time();
-        for ( std::uint64_t i = 0; i < SYS_VALID_TIME_NUM_INTERVALS ; ++i )
+        for (std::uint64_t i = 0; i < SYS_VALID_TIME_NUM_INTERVALS; ++i)
         {
-            if ( calculate<HASH_ALGO>( secret_key, SYS_EPOCH, SYS_TIME_STEP,
-                                        now - i* SYS_TIME_STEP, OTP_LEN ) == otp )
+            if (calculate<HASH_ALGO>(secret_key, SYS_EPOCH, SYS_TIME_STEP,
+                now - i * SYS_TIME_STEP, OTP_LEN) == otp)
                 return true;
         }
 
@@ -126,9 +126,9 @@ namespace totp
     {
         try
         {
-            return validate<HASH_ALGO>( users::secret_key(user_id), otp );
+            return validate<HASH_ALGO>(users::secret_key(user_id), otp);
         }
-        catch ( const std::domain_error& )
+        catch (const std::domain_error&)
         {
             return false; // invalid user id
         }

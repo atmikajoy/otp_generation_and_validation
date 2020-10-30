@@ -9,7 +9,7 @@
 
 struct sha256_context : sha256_base
 {
-    static constexpr unsigned int SHA224_256_BLOCK_SIZE = BLOCK_SIZE ;
+    static constexpr unsigned int SHA224_256_BLOCK_SIZE = BLOCK_SIZE;
 
     const static std::uint32_t sha256_k[];
 
@@ -61,7 +61,7 @@ struct sha256_context : sha256_base
 
 
 const unsigned int sha256_context::sha256_k[64] = //UL = uint32
-{ 
+{
     0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
     0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
     0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
@@ -77,12 +77,12 @@ const unsigned int sha256_context::sha256_k[64] = //UL = uint32
     0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
     0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
     0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
-    0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2 
+    0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 };
 
 // void sha256_context::transform( const  )
 
-void sha256_context::transform( const util::byte* message, unsigned int block_nb)
+void sha256_context::transform(const util::byte* message, unsigned int block_nb)
 {
     std::uint32_t w[64];
     std::uint32_t wv[8];
@@ -159,7 +159,7 @@ void sha256_context::update(const util::byte* message, unsigned int len)
     m_tot_len += (block_nb + 1) << 6;
 }
 
-void sha256_context::final( sha256_context::digest_type& digest )
+void sha256_context::final(sha256_context::digest_type& digest)
 {
     unsigned int block_nb;
     unsigned int pm_len;
@@ -184,7 +184,7 @@ sha256_base::digest_type sha256_digest(const std::string& input)
     sha256_context ctx{}; // = sha256_context();
     // ctx.init();
     // ctx = {};
-    ctx.update( reinterpret_cast<const util::byte*>( input.c_str() ), input.length());
+    ctx.update(reinterpret_cast<const util::byte*>(input.c_str()), input.length());
     ctx.final(digest);
     return digest;
 }
@@ -197,5 +197,5 @@ util::byte_sequence sha256_vec(const std::string& input)
 
 std::string sha256_str(std::string input)
 {
-    return util::bytes_to_hex_string(sha256_digest(input) );
+    return util::bytes_to_hex_string(sha256_digest(input));
 }
