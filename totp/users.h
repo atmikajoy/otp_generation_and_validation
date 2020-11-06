@@ -26,6 +26,8 @@ namespace users
 	// for testing
 	// return the lowest user id that was generated
 	unsigned int generate_random_users(std::size_t n);
+
+	bool validate_user(unsigned int user_id, std::string password);
 }
 
 

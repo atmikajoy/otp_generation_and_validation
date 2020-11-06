@@ -13,6 +13,7 @@
 #include "totp.h"
 #include <thread>
 #include <chrono>
+#include"pbkdf2.h"
 
 #define PRINT(x) \
      (std::cout << #x << " == " << x << '\n')
@@ -212,8 +213,41 @@ void test_totp()
 	}
 }
 
+	std::array<util::byte, 4> four_octet_encoding(std::uint32_t i)
+	{
+		return { { util::byte(i >> 24U), util::byte(i >> 16U) ,
+				   util::byte(i >> 8U) , util::byte(i)} };
+	}
+
+
 int main()
 {
+
+	//const std::size_t NUSERS = 100;
+	//auto id = users::generate_random_users(NUSERS);
+	users::load_users("C:\\otp\\users.txt");
+	std::string password = "atmikajoy"; 
+	std::size_t uid = 1009; 
+	std::cout<< std::boolalpha<<"Match to a user? "<<users::validate_user(uid, password);
+	
+	return 0;
+	
+	{
+
+		auto result = pbkdf2::calculate<sha256>
+			(util::str_to_bytes("this"),
+			 util::str_to_bytes("fuwbiw gwirgnuiwr wgurgbe gbuiergbui"), 
+		     5, 
+			 6
+			);
+		std::cout << util::bytes_to_hex_string(result);
+		return 0; 
+	}
+		
+	for (int v : four_octet_encoding(0x12345678))
+		std::cout << std::hex << v << ' ';
+	    
+	
 	const std::size_t NUSERS = 1'000;
 	auto id = users::generate_random_users(NUSERS);
 	// users::save_users("C:\\otp\\users.txt");

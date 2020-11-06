@@ -5,27 +5,35 @@
 #include<fstream>
 #include<iostream>
 #include <random>
-
+#include"pbkdf2.h"
 namespace users
 {
 	namespace
 	{
 		static const std::size_t MIN_PASSWORD_SIZE = 6;
-
+		static const std::string SALT_STR = "E1F53135E559C253";
+		static util::byte_sequence salt = util::hex_string_to_bytes(SALT_STR);
+		static const std::size_t dkLen = 32; 
+		static const std::size_t c = 4000; 
 		// TO DO: use an actual encryption algorithm (PBKDF2) later
 		util::byte_sequence encrypt(const std::string& password)
 		{
-			auto bytes = util::str_to_bytes(password);
-			for (auto& b : bytes)
-			{
-				if (b < 40) b += 39;
-				else b -= 39;
-			}
-			std::reverse(bytes.begin(), bytes.end());
-			return bytes;
+			
+			auto passwd = util::str_to_bytes(password);
+		
+			
+			return pbkdf2::calculate<sha256>(passwd, salt, c, dkLen);;
 		}
 
 		std::unordered_map< user_id_t, util::byte_sequence > user_secret_map;
+	}
+
+	bool validate_user(unsigned int user_id, std::string password)
+	{
+		if (user_secret_map.find(user_id) != user_secret_map.end())
+			return encrypt(password) == user_secret_map[user_id];
+		
+		return false; 
 	}
 
 	bool load_users(const std::string& file_name)
@@ -41,8 +49,6 @@ namespace users
 			if (user_secret_map.find(uid) != user_secret_map.end())
 				return false;
 			user_secret_map[uid] = util::hex_string_to_bytes(secret);
-
-
 		}
 		return true;
 	}
@@ -119,7 +125,9 @@ namespace users
 		for (std::size_t i = 0; i < n; ++i)
 		{
 			add_user(next_id++, random_password());
+			/*if (i % 10 == 9)*/ std::cout << '.' << std::flush;
 		}
+		std::cout << '\n';
 
 		return first_id;
 

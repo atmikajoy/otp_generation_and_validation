@@ -23,6 +23,7 @@
     <ClInclude Include="byte_stream.h" />
     <ClInclude Include="hmac.h" />
     <ClInclude Include="hotp.h" />
+    <ClInclude Include="pbkdf2.h" />
     <ClInclude Include="sha256.h" />
     <ClInclude Include="totp.h" />
     <ClInclude Include="users.h" />

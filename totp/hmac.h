@@ -14,6 +14,7 @@ template <typename hash_method>
 struct hmac
 {
     using digest_type = typename hash_method::digest_type;
+    static constexpr std::size_t digest_size = sizeof(digest_type);
 
     template < typename DATA_RANGE, typename KEY_RANGE >
     static digest_type compute(const DATA_RANGE& data, const KEY_RANGE& key);
@@ -85,7 +86,7 @@ namespace
 
         return result;
     }
-
+                       
     template < typename RANGE1, typename RANGE2 >
     util::byte_sequence cat_ranges(const RANGE1& a, const RANGE2& b)
     {
@@ -98,6 +99,7 @@ template < typename DATA_RANGE, typename KEY_RANGE >
 typename hmac<hash_method>::digest_type
 hmac<hash_method>::compute(const DATA_RANGE& data, const KEY_RANGE& key)
 {
+
     // (1) append zeros to the end of K to create a B byte string
     const auto step_1_result = make_hmac_key(std::begin(key), std::end(key));
 
