@@ -13,12 +13,12 @@ namespace users
 
 	bool add_user(user_id_t user_id, const std::string& password);
 
-	/*
-	// not required for this program
+	bool login_user(user_id_t uid, std::string& password);
+	
 	bool change_password( user_id_t user_id, const std::string& old_password,
 						  const std::string& new_password );
 	bool remove_user( user_id_t user_id, const std::string& password );
-	*/
+	
 
 	// throw std::domain_error if user_id is invalid
 	util::byte_sequence secret_key(user_id_t user_id);

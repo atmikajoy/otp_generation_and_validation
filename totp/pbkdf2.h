@@ -42,9 +42,8 @@ namespace pbkdf2
         //    block :
         //              l = CEIL (dkLen / hLen) 
         //              r = dkLen - (l - 1) * hLen
-        // In our case dkLen = keylen 
-
-        static std::uint32_t l = std::ceil(dkLen / double(hLen)); 
+        
+        static std::uint32_t l = (dkLen % hLen) ? (dkLen/hLen) : (dkLen/hLen + 1); 
         static std::size_t r = dkLen - ((l - 1) * hLen);
 
         /* 
@@ -113,44 +112,4 @@ namespace pbkdf2
         
     }
 }
-/* auto hash = HASH_ALGO::hash(secret.begin(), secret.end());
-        if (keylen > (std::pow(2, 32) - 1) * hash.size()) std::invalid_argument("Derived Key too long");
-
-        util::byte_sequence key = secret;
-        std::uint32_t i = 0;
-        while (keylen > 0)
-        {
-            ++i;
-            std::string block_number;
-            block_number.push_back((i >> 24) & 0xff);
-            block_number.push_back((i >> 16) & 0xff);
-            block_number.push_back((i >> 8) & 0xff);
-            block_number.push_back(i & 0xff);
-            util::byte_sequence u = secret;
-            u.insert( u.end(), salt.begin(), salt.end() );
-            //util::byte_sequence t = u;
-            util::byte_sequence running_xor(rounds);
-            std::vector<util::byte_sequence> t;
-            // most significant octet first?? auto un = HASH_ALGO::compute(u,(secret))
-            for (std::size_t j = 1; j < rounds; ++j)
-            {
-                auto un = HASH_ALGO::compute(u, secret );
-                for (std::size_t k = 0; k < un.size(); ++k)
-                {
-                   running_xor[k] = un[k] ^ t[k];
-                }
-                t.push_back(running_xor);
-                u = un;
-
-            }
-            util::byte_sequence T(t[0].size());
-            for (unsigned int i=0; i<t.size()-1;++i)
-            {
-                for (unsigned int j = 0; j < j.size(); ++j)
-                {
-                    T[j] = t[i][j] || t[i + 1][j];
-                }
-            }
-
-            return T;*/
 #endif // PBKDF2_H_INCLUDED

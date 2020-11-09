@@ -226,8 +226,9 @@ int main()
 	//const std::size_t NUSERS = 100;
 	//auto id = users::generate_random_users(NUSERS);
 	users::load_users("C:\\otp\\users.txt");
+	users::add_user(10101, "atmikajoy");
 	std::string password = "atmikajoy"; 
-	std::size_t uid = 1009; 
+	std::size_t uid = 10101; 
 	std::cout<< std::boolalpha<<"Match to a user? "<<users::validate_user(uid, password);
 	
 	return 0;

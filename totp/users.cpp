@@ -27,6 +27,52 @@ namespace users
 
 		std::unordered_map< user_id_t, util::byte_sequence > user_secret_map;
 	}
+	bool login_user()
+	{
+		int i = 0; 
+		user_id_t uid;
+		std::string password;
+		do
+		{
+			std::cout << "enter UID, Password";
+			std::cin >> uid >> password;
+			if (validate_user(uid, password))
+				return true;
+			else
+				std::cout << "Invalid login credentials";
+			++i;
+		} while (i < 3);
+	}
+
+	bool change_password(user_id_t user_id, const std::string& old_password,
+		const std::string& new_password)
+	{
+		const auto iter = user_secret_map.find(user_id);
+		if ( iter != user_secret_map.end())
+		{
+			if (iter->second == encrypt(old_password))
+			{
+				iter->second = encrypt(new_password);
+				return true;
+			}
+			return false; 	 
+		}
+		return false; 
+
+	}
+	bool remove_user(user_id_t user_id, const std::string& password)
+	{
+		const auto iter = user_secret_map.find(user_id);
+		if (iter != user_secret_map.end())
+		{
+			if (iter->second == encrypt(password))
+			{
+				user_secret_map.erase(iter);
+				return true;
+			}
+		}
+		return false;
+	}
 
 	bool validate_user(unsigned int user_id, std::string password)
 	{
