@@ -15,13 +15,10 @@ namespace users
 		static util::byte_sequence salt = util::hex_string_to_bytes(SALT_STR);
 		static const std::size_t dkLen = 32; 
 		static const std::size_t c = 4000; 
-		// TO DO: use an actual encryption algorithm (PBKDF2) later
+
 		util::byte_sequence encrypt(const std::string& password)
 		{
-			
 			auto passwd = util::str_to_bytes(password);
-		
-			
 			return pbkdf2::calculate<sha256>(passwd, salt, c, dkLen);;
 		}
 
@@ -60,6 +57,7 @@ namespace users
 		return false; 
 
 	}
+
 	bool remove_user(user_id_t user_id, const std::string& password)
 	{
 		const auto iter = user_secret_map.find(user_id);

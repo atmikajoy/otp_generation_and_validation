@@ -33,7 +33,7 @@ namespace pbkdf2
        // PRF (pseudo random function) in our case is HMAC
        // Hlen is size of the digest_type returned by HMAX::hash()
         std::size_t hLen =hmac<HASH_ALGO>::digest_size;
-        static auto max_32bit_val = long(std::numeric_limits<int32_t>::max());
+        static const auto max_32bit_val = long(std::numeric_limits<int32_t>::max());
         if (dkLen > (max_32bit_val) * hLen) 
             std::invalid_argument("Derived Key too long");
 
@@ -42,9 +42,9 @@ namespace pbkdf2
         //    block :
         //              l = CEIL (dkLen / hLen) 
         //              r = dkLen - (l - 1) * hLen
-        
-        static std::uint32_t l = (dkLen % hLen) ? (dkLen/hLen) : (dkLen/hLen + 1); 
-        static std::size_t r = dkLen - ((l - 1) * hLen);
+         
+        const std::uint32_t l = (dkLen % hLen) ? (dkLen/hLen) : (dkLen/hLen + 1); 
+        const std::size_t r = dkLen - ((l - 1) * hLen);
 
         /* 
         (3) For each block of the derived key apply the function F defined
