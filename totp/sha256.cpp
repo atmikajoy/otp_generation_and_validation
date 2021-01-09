@@ -184,7 +184,8 @@ sha256_base::digest_type sha256_digest(const std::string& input)
     sha256_context ctx{}; // = sha256_context();
     // ctx.init();
     // ctx = {};
-    ctx.update(reinterpret_cast<const util::byte*>(input.c_str()), input.length());
+    using uint = unsigned int;
+    ctx.update(reinterpret_cast<const util::byte*>(input.c_str()), uint( input.length() ) );
     ctx.final(digest);
     return digest;
 }

@@ -89,6 +89,8 @@ namespace totp
     template <typename HASH_ALGO>
     std::string generate(const util::byte_sequence& secret_key)
     {
+        // for variable length OTPs, change from OTP_LEN to add seperate parameter
+        // in function
         return calculate<HASH_ALGO>(secret_key, SYS_EPOCH, SYS_TIME_STEP,
             curr_time(), OTP_LEN);
     }

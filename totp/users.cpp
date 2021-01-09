@@ -24,21 +24,24 @@ namespace users
 
 		std::unordered_map< user_id_t, util::byte_sequence > user_secret_map;
 	}
-	bool login_user()
+	bool login_user(user_id_t uid, std::string& password)
 	{
 		int i = 0; 
-		user_id_t uid;
-		std::string password;
 		do
 		{
-			std::cout << "enter UID, Password";
-			std::cin >> uid >> password;
 			if (validate_user(uid, password))
 				return true;
+
 			else
 				std::cout << "Invalid login credentials";
+
+			std::cout << "enter UID, Password";
+			std::cin >> uid >> password;
+
 			++i;
 		} while (i < 3);
+
+		return false;
 	}
 
 	bool change_password(user_id_t user_id, const std::string& old_password,

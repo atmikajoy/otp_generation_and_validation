@@ -213,16 +213,22 @@ void test_totp()
 	}
 }
 
-	std::array<util::byte, 4> four_octet_encoding(std::uint32_t i)
-	{
-		return { { util::byte(i >> 24U), util::byte(i >> 16U) ,
-				   util::byte(i >> 8U) , util::byte(i)} };
-	}
+std::array<util::byte, 4> four_octet_encoding(std::uint32_t i)
+{
+	return { { util::byte(i >> 24U), util::byte(i >> 16U) ,
+				util::byte(i >> 8U) , util::byte(i)} };
+}
 
+void fun(int a, double b) {}
+
+void foo()
+{
+	fun(23, 56.8);
+}
 
 int main()
 {
-
+	
 	//const std::size_t NUSERS = 100;
 	//auto id = users::generate_random_users(NUSERS);
 	users::load_users("C:\\otp\\users.txt");
@@ -231,7 +237,7 @@ int main()
 	std::size_t uid = 10101; 
 	std::cout<< std::boolalpha<<"Match to a user? "<<users::validate_user(uid, password);
 	
-	return 0;
+	
 	
 	{
 

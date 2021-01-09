@@ -18,6 +18,7 @@ namespace hotp
         else return 10U * ten_pow(n - 1);
     }
 
+
     template <typename HASH_ALGO>
     std::string calculate(const util::byte_sequence& secret_key,
         const util::byte_sequence& counter, unsigned int code_len) {
@@ -39,6 +40,15 @@ namespace hotp
         std::string result = std::to_string(val % ten_pow(code_len));
         while (result.size() < code_len) result = '0' + result;
         return result;
+    }
+
+    template <typename HASH_ALGO>
+    std::string calculate(const std::string& secret_key_hex_str,
+        const std::string& counter_hex_str, unsigned int code_len)
+    {
+        return calculate<HASH_ALGO>(util::hex_string_to_bytes(secret_key_hex_str),
+            util::hex_string_to_bytes(counter_hex_str),
+            code_len);
     }
 }
 
